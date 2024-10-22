@@ -12,9 +12,8 @@ func Test_folder_MoveFolder(t *testing.T) {
 
 	defaultOrgID := uuid.FromStringOrNil(folder.DefaultOrgID)
 
-	tests := []struct {
+	tests := [...]struct {
 		name         string
-		orgID        uuid.UUID
 		folders      []folder.Folder
 		folderToMove string
 		dst          string
@@ -22,19 +21,52 @@ func Test_folder_MoveFolder(t *testing.T) {
 		want         []folder.Folder
 	}{
 		{
-			name:    "test1",
-			orgID:   defaultOrgID,
+			name:    "Move folder without children",
 			folders: []folder.Folder{},
 			dst:     "parent",
 			wantErr: false,
 			want:    []folder.Folder{},
 		},
 		{
-			name:    "test2",
-			orgID:   defaultOrgID,
+			name:    "Move folder with children",
 			folders: []folder.Folder{},
 			dst:     "parent",
 			wantErr: false,
+			want:    []folder.Folder{},
+		},
+		{
+			name:    "Move folder into its child",
+			folders: []folder.Folder{},
+			dst:     "parent",
+			wantErr: true,
+			want:    []folder.Folder{},
+		},
+		{
+			name:    "Move folder into itself",
+			folders: []folder.Folder{},
+			dst:     "parent",
+			wantErr: true,
+			want:    []folder.Folder{},
+		},
+		{
+			name:    "Move folder into folder in different org",
+			folders: []folder.Folder{},
+			dst:     "parent",
+			wantErr: true,
+			want:    []folder.Folder{},
+		},
+		{
+			name:    "Move folder that does not exist",
+			folders: []folder.Folder{},
+			dst:     "parent",
+			wantErr: true,
+			want:    []folder.Folder{},
+		},
+		{
+			name:    "Move folder into destination that does not exist",
+			folders: []folder.Folder{},
+			dst:     "parent",
+			wantErr: true,
 			want:    []folder.Folder{},
 		},
 	}
