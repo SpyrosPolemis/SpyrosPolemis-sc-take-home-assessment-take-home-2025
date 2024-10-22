@@ -31,7 +31,7 @@ func (f *driver) MoveFolder(name string, dst string) ([]Folder, error) {
 	if folderToMove.Name == dst {
 		return nil, errors.New("cannot move a folder to itself")
 	}
-	if strings.HasPrefix(folderToMove.Paths, dst+".") {
+	if strings.Contains(destinationFolder.Paths, folderToMove.Name) {
 		return nil, errors.New("cannot move a folder to a child of itself")
 	}
 	if folderToMove.OrgId != destinationFolder.OrgId {
