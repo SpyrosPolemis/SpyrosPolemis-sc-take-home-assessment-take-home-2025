@@ -11,6 +11,7 @@ func Test_folder_MoveFolder(t *testing.T) {
 	t.Parallel()
 
 	defaultOrgID := uuid.FromStringOrNil(folder.DefaultOrgID)
+	diffOrgID := uuid.Must(uuid.NewV4())
 
 	folderData := []folder.Folder{
 		{Name: "alpha", Paths: "alpha", OrgId: defaultOrgID},
@@ -18,7 +19,7 @@ func Test_folder_MoveFolder(t *testing.T) {
 		{Name: "charlie", Paths: "alpha.bravo.charlie", OrgId: defaultOrgID},
 		{Name: "delta", Paths: "alpha.delta", OrgId: defaultOrgID},
 		{Name: "echo", Paths: "alpha.delta.echo", OrgId: defaultOrgID},
-		{Name: "foxtrot", Paths: "foxtrot", OrgId: uuid.Must(uuid.NewV4())}, // Different org
+		{Name: "foxtrot", Paths: "foxtrot", OrgId: diffOrgID}, // Different org
 		{Name: "golf", Paths: "golf", OrgId: defaultOrgID},
 	}
 
@@ -42,7 +43,7 @@ func Test_folder_MoveFolder(t *testing.T) {
 				{Name: "charlie", Paths: "alpha.delta.bravo.charlie", OrgId: defaultOrgID},
 				{Name: "delta", Paths: "alpha.delta", OrgId: defaultOrgID},
 				{Name: "echo", Paths: "alpha.delta.echo", OrgId: defaultOrgID},
-				{Name: "foxtrot", Paths: "foxtrot", OrgId: uuid.Must(uuid.NewV4())}, // Different org
+				{Name: "foxtrot", Paths: "foxtrot", OrgId: diffOrgID}, // Different org
 				{Name: "golf", Paths: "golf", OrgId: defaultOrgID},
 			},
 		},
