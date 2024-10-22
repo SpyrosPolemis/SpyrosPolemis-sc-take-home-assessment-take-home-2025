@@ -40,6 +40,7 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 		orgID      uuid.UUID
 		folders    []folder.Folder
 		parentName string
+		wantErr    bool
 		want       []folder.Folder
 	}{
 		{
@@ -52,6 +53,7 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 				{Name: "child3", OrgId: defaultOrgID, Paths: "parent-folder.child3"},
 			},
 			parentName: "parent-folder",
+			wantErr:    false,
 			want: []folder.Folder{
 				{Name: "child1", OrgId: defaultOrgID, Paths: "parent-folder.child1"},
 				{Name: "child2", OrgId: defaultOrgID, Paths: "parent-folder.child2"},
@@ -69,20 +71,37 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 				{Name: "non-child4", OrgId: defaultOrgID, Paths: "non-child4"},
 			},
 			parentName: "parent-folder",
+			wantErr:    false,
 			want:       []folder.Folder{},
+		},
+		{
+			name:  "Parent folder does not exist",
+			orgID: defaultOrgID,
+			folders: []folder.Folder{
+				{Name: "folder1", OrgId: defaultOrgID, Paths: "folder1"},
+				{Name: "folder2", OrgId: defaultOrgID, Paths: "folder2"},
+				{Name: "folder3", OrgId: defaultOrgID, Paths: "folder3"},
+			},
+			parentName: "parent-folder",
+			wantErr:    true,
+			want:       nil,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Create a new folder driver with the provided folders
 			f := folder.NewDriver(tt.folders)
 
-			// Call the GetAllChildFolders function
+			// Call GetAllChildFolders method
 			got, err := f.GetAllChildFolders(tt.orgID, tt.parentName)
 
 			if err != nil {
 				t.Fatalf("GetAllChildFolders() error = %v", err)
+			}
+
+			// Check if an error is expected
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetAllChildFolders() error = %v, wantErr %v", err, tt.wantErr)
 			}
 
 			// Compare the result with the expected folders
