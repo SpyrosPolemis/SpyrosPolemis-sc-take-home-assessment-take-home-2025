@@ -40,12 +40,18 @@ func (f *driver) MoveFolder(name string, dst string) ([]Folder, error) {
 
 	updatedFolders := []Folder{}
 
+	destinationPath := destinationFolder.Paths
+	if destinationPath != "" {
+		destinationPath += "."
+	}
+	sourcePath := folderToMove.Paths
+
 	// Move folder
 	for _, f := range f.folders {
 		if f.Name == name {
-			f.Paths = dst + "." + name
-		} else if strings.HasPrefix(f.Paths, name+".") {
-			f.Paths = dst + "." + f.Paths
+			f.Paths = destinationPath + name
+		} else if strings.HasPrefix(f.Paths, sourcePath) {
+			f.Paths = destinationPath + name + "." + f.Name
 		}
 		updatedFolders = append(updatedFolders, f)
 	}
