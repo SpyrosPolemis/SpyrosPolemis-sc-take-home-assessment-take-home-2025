@@ -34,6 +34,7 @@ func (f *driver) GetAllChildFolders(orgID uuid.UUID, name string) ([]Folder, err
 	if orgID == uuid.Nil {
 		return []Folder{}, errors.New("orgID is required")
 	}
+	folderExists := false // Keeps track of whether the parent file exists
 
 	// Get child folders
 	folders := f.folders
@@ -42,6 +43,14 @@ func (f *driver) GetAllChildFolders(orgID uuid.UUID, name string) ([]Folder, err
 		if f.OrgId == orgID && strings.HasPrefix(f.Paths, name) && name != f.Paths {
 			childFolders = append(childFolders, f)
 		}
+		if name == f.Paths {
+			folderExists = true
+		}
 	}
+
+	if !folderExists {
+		return nil, errors.New("parent folder does not exist")
+	}
+
 	return childFolders, nil
 }
