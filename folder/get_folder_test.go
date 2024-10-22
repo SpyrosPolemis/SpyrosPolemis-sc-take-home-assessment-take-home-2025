@@ -62,7 +62,7 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 		},
 		{
 			name:  "No child folders present",
-			orgID: defaultOrgID, // Use the default orgID
+			orgID: defaultOrgID,
 			folders: []folder.Folder{
 				{Name: "parent-folder", OrgId: defaultOrgID, Paths: "parent-folder"},
 				{Name: "non-child1", OrgId: defaultOrgID, Paths: "non-child1"},
@@ -81,6 +81,17 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 				{Name: "folder1", OrgId: defaultOrgID, Paths: "folder1"},
 				{Name: "folder2", OrgId: defaultOrgID, Paths: "folder2"},
 				{Name: "folder3", OrgId: defaultOrgID, Paths: "folder3"},
+			},
+			parentName: "parent-folder",
+			wantErr:    true,
+			want:       nil,
+		},
+		{
+			name:  "Parent folder exists in different org",
+			orgID: uuid.Must(uuid.NewV4()),
+			folders: []folder.Folder{
+				{Name: "parent-folder", OrgId: defaultOrgID, Paths: "folder1"},
+				{Name: "folder2", OrgId: defaultOrgID, Paths: "folder2"},
 			},
 			parentName: "parent-folder",
 			wantErr:    true,
