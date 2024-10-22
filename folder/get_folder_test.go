@@ -50,14 +50,14 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 				{Name: "parent-folder", OrgId: defaultOrgID, Paths: "parent-folder"},
 				{Name: "child1", OrgId: defaultOrgID, Paths: "parent-folder.child1"},
 				{Name: "child2", OrgId: defaultOrgID, Paths: "parent-folder.child2"},
-				{Name: "child3", OrgId: defaultOrgID, Paths: "parent-folder.child3"},
+				{Name: "child3", OrgId: defaultOrgID, Paths: "parent-folder.child2.child3"},
 			},
 			parentName: "parent-folder",
 			wantErr:    false,
 			want: []folder.Folder{
 				{Name: "child1", OrgId: defaultOrgID, Paths: "parent-folder.child1"},
 				{Name: "child2", OrgId: defaultOrgID, Paths: "parent-folder.child2"},
-				{Name: "child3", OrgId: defaultOrgID, Paths: "parent-folder.child3"},
+				{Name: "child3", OrgId: defaultOrgID, Paths: "parent-folder.child2.child3"},
 			},
 		},
 		{
