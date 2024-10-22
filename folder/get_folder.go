@@ -39,7 +39,7 @@ func (f *driver) GetAllChildFolders(orgID uuid.UUID, name string) ([]Folder, err
 	folders := f.folders
 	childFolders := []Folder{}
 	for _, f := range folders {
-		if f.OrgId == orgID && strings.Contains(f.Name, name) {
+		if f.OrgId == orgID && strings.HasPrefix(f.Paths, name) && name != f.Paths {
 			childFolders = append(childFolders, f)
 		}
 	}
