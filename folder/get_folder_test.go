@@ -106,13 +106,14 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 			// Call GetAllChildFolders method
 			got, err := f.GetAllChildFolders(tt.orgID, tt.parentName)
 
-			if err != nil {
-				t.Fatalf("GetAllChildFolders() error = %v", err)
+			// Check if an error is expected
+			if (err != nil) != tt.wantErr || tt.wantErr {
+				t.Errorf("GetAllChildFolders() error = %v, wantErr %v", err, tt.wantErr)
+				return
 			}
 
-			// Check if an error is expected
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetAllChildFolders() error = %v, wantErr %v", err, tt.wantErr)
+			if err != nil {
+				t.Errorf("GetAllChildFolders() error = %v", err)
 			}
 
 			// Compare the result with the expected folders
